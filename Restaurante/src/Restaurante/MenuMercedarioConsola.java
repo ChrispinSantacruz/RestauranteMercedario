@@ -1,4 +1,5 @@
 package Restaurante;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,17 +25,18 @@ class Ingrediente {
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
-    public double getCalorias() {
-        return cantidad;
-    }
 
-    public void setCalorias(double calorias) {
-        this.calorias = calorias;
+    public void eliminarIngrediente(int indice, ArrayList<Ingrediente> ingredientes) {
+        if (indice >= 0 && indice < ingredientes.size()) {
+            ingredientes.remove(indice);
+        } else {
+            System.out.println("Índice inválido");
+        }
     }
 
     @Override
     public String toString() {
-        return nombre + " - " + cantidad + " gramos" + calorias + "Kcal" ;
+        return nombre + " - " + cantidad + " gramos - " + calorias + " Kcal";
     }
 }
 
@@ -60,7 +62,11 @@ class Receta {
 
     public void editarIngrediente(int indice, Ingrediente nuevoIngrediente) {
         if (indice >= 0 && indice < ingredientes.size()) {
-            ingredientes.set(indice, nuevoIngrediente);
+            if (nuevoIngrediente == null) {
+                ingredientes.remove(indice); // Elimina el ingrediente
+            } else {
+                ingredientes.set(indice, nuevoIngrediente); // Edita el ingrediente
+            }
         } else {
             System.out.println("Índice inválido");
         }
@@ -75,4 +81,9 @@ class Receta {
         }
         return sb.toString();
     }
+
+	public void eliminarIngrediente(int i) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -14,6 +14,8 @@ public class MenuMercedario {
             System.out.println("2. Editar Receta");
             System.out.println("3. Ver Recetas");
             System.out.println("4. Salir");
+            System.out.println("5. Eliminar Receta");
+            System.out.println("6. Eliminar Ingrediente");
             System.out.print("Seleccione una opción: ");
 
             int opcion = scanner.nextInt();
@@ -35,14 +37,13 @@ public class MenuMercedario {
                         System.out.print("Cantidad (gramos): ");
                         double cantidadIngrediente = scanner.nextDouble();
                         scanner.nextLine(); // Consumir el salto de línea
-                        
+
                         System.out.print("Cantidad (Calorias): ");
                         double cantidadCalorias = scanner.nextDouble();
                         scanner.nextLine(); // Consumir el salto de línea
 
                         Ingrediente ingrediente = new Ingrediente(nombreIngrediente, cantidadIngrediente, cantidadCalorias);
                         nuevaReceta.agregarIngrediente(ingrediente);
-                        
                     }
 
                     menu.add(nuevaReceta);
@@ -82,7 +83,7 @@ public class MenuMercedario {
                             double nuevaCalorias = scanner.nextDouble();
                             scanner.nextLine(); // Consumir el salto de línea
 
-                            Ingrediente nuevoIngrediente = new Ingrediente(nuevoNombre, nuevaCantidad, nuevaCantidad);
+                            Ingrediente nuevoIngrediente = new Ingrediente(nuevoNombre, nuevaCantidad, nuevaCalorias);
                             recetaEditar.editarIngrediente(seleccionIngrediente - 1, nuevoIngrediente);
                             System.out.println("Ingrediente editado exitosamente.");
                         } else if (seleccionIngrediente != 0) {
@@ -103,6 +104,58 @@ public class MenuMercedario {
                 case 4:
                     System.out.println("¡Gracias por usar el Menú de Recetas de Restaurante Mercedario!");
                     System.exit(0);
+                    break;
+
+                case 5:
+                    System.out.println("\nRecetas Disponibles:");
+                    for (int i = 0; i < menu.size(); i++) {
+                        System.out.println((i + 1) + ". " + menu.get(i).getNombre());
+                    }
+                    System.out.print("Seleccione una receta para eliminar (0 para volver): ");
+                    int seleccionEliminarReceta = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea
+
+                    if (seleccionEliminarReceta > 0 && seleccionEliminarReceta <= menu.size()) {
+                        Receta recetaEliminar = menu.get(seleccionEliminarReceta - 1);
+                        menu.remove(recetaEliminar);
+                        System.out.println("Receta eliminada exitosamente.");
+                    } else if (seleccionEliminarReceta != 0) {
+                        System.out.println("Receta no válida.");
+                    }
+                    break;
+
+                case 6:
+                    System.out.println("\nRecetas Disponibles:");
+                    for (int i = 0; i < menu.size(); i++) {
+                        System.out.println((i + 1) + ". " + menu.get(i).getNombre());
+                    }
+                    System.out.print("Seleccione una receta para eliminar un ingrediente (0 para volver): ");
+                    int seleccionEliminarIngrediente = scanner.nextInt();
+                    scanner.nextLine(); // Consumir el salto de línea
+
+                    if (seleccionEliminarIngrediente > 0 && seleccionEliminarIngrediente <= menu.size()) {
+                        Receta recetaEliminarIngrediente = menu.get(seleccionEliminarIngrediente - 1);
+                        ArrayList<Ingrediente> ingredientesReceta = recetaEliminarIngrediente.getIngredientes();
+
+                        System.out.println("Ingredientes:");
+
+                        for (int i = 0; i < ingredientesReceta.size(); i++) {
+                            System.out.println((i + 1) + ". " + ingredientesReceta.get(i).toString());
+                        }
+
+                        System.out.print("Seleccione un ingrediente para eliminar (0 para volver): ");
+                        int seleccionIngredienteEliminar = scanner.nextInt();
+                        scanner.nextLine(); // Consumir el salto de línea
+
+                        if (seleccionIngredienteEliminar > 0 && seleccionIngredienteEliminar <= ingredientesReceta.size()) {
+                            recetaEliminarIngrediente.eliminarIngrediente(seleccionIngredienteEliminar - 1);
+                            System.out.println("Ingrediente eliminado exitosamente.");
+                        } else if (seleccionIngredienteEliminar != 0) {
+                            System.out.println("Ingrediente no válido.");
+                        }
+                    } else if (seleccionEliminarIngrediente != 0) {
+                        System.out.println("Receta no válida.");
+                    }
                     break;
 
                 default:
